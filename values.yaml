@@ -1,0 +1,9 @@
+vpcId: ""
+
+subnetId: ""
+
+clusterName: ""
+
+roleArn: ""
+
+targetVpcId: ""

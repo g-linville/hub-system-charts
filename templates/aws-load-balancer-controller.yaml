@@ -1,0 +1,23 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: aws-load-balancer-controller
+  namespace: kube-system
+spec:
+  chart: https://aws.github.io/eks-charts/aws-load-balancer-controller-1.4.7.tgz
+  bootstrap: true
+  valuesContent: |
+    tolerations:
+      - effect: NoSchedule
+        key: taints.acorn.io/control-plane
+        operator: Exists
+    image:
+      repository: amazon/aws-alb-ingress-controller
+      tag: v2.4.5
+    region: {{ .Values.region }}
+    clusterName: {{ .Values.clusterName }}
+    vpcId: {{ .Values.targetVpcId }}
+    serviceAccount:
+      name: aws-load-balancer-controller
+      annotations:
+        eks.amazonaws.com/role-arn: {{ .Values.roleArn }}

@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: traefik
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    email: domains@acorn.io
+    privateKeySecretRef:
+      name: letsencrypt-production
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+      - http01:
+          ingress:
+            class: traefik
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: domains@acorn.io
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    solvers:
+      - http01:
+          ingress:
+            class: traefik
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  bootstrap: true
+  chart: https://traefik.github.io/charts/traefik/traefik-20.4.1.tgz
+  valuesContent: |
+    additionalArguments:
+      - "--metrics.prometheus=true"
+      - "--accesslog"
+      - "--accesslog.format=json"
+      - "--accesslog.filepath=/data/access.log"
+    providers:
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true  
+        allowExternalNameServices: true
+      kubernetesIngress:
+        allowExternalNameServices: true
+        publishedService:
+          enabled: true
+    service:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: external
+        service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+        service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    ingressRoute:
+      dashboard:
+        enabled: false
+    deployment:
+      kind: DaemonSet
+      podAnnotations:
+        linkerd.io/inject: ingress
+        config.linkerd.io/skip-outbound-ports: "443"

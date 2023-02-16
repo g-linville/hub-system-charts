@@ -1,0 +1,42 @@
+apiVersion: v1
+data:
+  cloudconfig: |
+    [global]
+      VPC = {{ .Values.vpcId }}
+      SubnetID = {{ .Values.subnetId }}
+      KubernetesClusterID = {{ .Values.clusterName }}
+      RoleARN = {{ .Values.roleArn }}
+kind: ConfigMap
+metadata:
+  name: aws-cloud-config
+  namespace: kube-system
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: aws-cloud-controller-manager
+  namespace: kube-system
+spec:
+  bootstrap: true
+  chart: https://github.com/kubernetes/cloud-provider-aws/releases/download/helm-chart-aws-cloud-controller-manager-0.0.7/aws-cloud-controller-manager-0.0.7.tgz
+  targetNamespace: kube-system
+  valuesContent: |
+    args:
+    - --v=2
+    - --cloud-provider=aws
+    - --cluster-cidr=10.42.0.0/16
+    - --cluster-name={{ .Values.clusterName }}
+    - --cloud-config=/etc/aws/cloudconfig
+    - --configure-cloud-routes=false
+    hostNetworking: true
+    tolerations:
+    - key: taints.acorn.io/control-plane
+      operator: "Exists"
+    extraVolumeMounts:
+    - mountPath: /etc/aws
+      name: config
+    extraVolumes:
+    - configMap:
+        defaultMode: 420
+        name: aws-cloud-config
+      name: config

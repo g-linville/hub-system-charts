@@ -1,0 +1,16 @@
+apiVersion: v1
+entries:
+  hub-system-charts:
+  - apiVersion: v1
+    appVersion: v0.0.1
+    created: "2023-02-16T15:18:53.988658-07:00"
+    description: System chart for acorn hub controlplane
+    digest: 4e9ff197041e33d03fc2277ecba692fa4f4fa3bb05947fefd4594f6b4531b9ae
+    maintainers:
+    - email: daishan@acorn.io
+      name: Daishan Peng
+    name: hub-system-charts
+    urls:
+    - https://acorn-io.github.io/hub-system-charts/hub-system-charts-0.0.1.tgz
+    version: 0.0.1
+generated: "2023-02-16T15:18:53.987571-07:00"
