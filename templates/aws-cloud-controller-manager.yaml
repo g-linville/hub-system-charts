@@ -30,7 +30,7 @@ spec:
     - --configure-cloud-routes=false
     hostNetworking: true
     tolerations:
-    - key: taints.acorn.io/control-plane
+    - key: node-role.kubernetes.io/control-plane
       operator: "Exists"
     extraVolumeMounts:
     - mountPath: /etc/aws

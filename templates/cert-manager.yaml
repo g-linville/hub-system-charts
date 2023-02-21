@@ -14,17 +14,17 @@ spec:
   valuesContent: |
     installCRDs: true
     tolerations:
-      - key: taints.acorn.io/control-plane
+      - key: node-role.kubernetes.io/control-plane
         operator: "Exists"
     webhook:
       tolerations:
-        - key: taints.acorn.io/control-plane
+        - key: node-role.kubernetes.io/control-plane
           operator: "Exists"
     cainjector:
       tolerations:
-        - key: taints.acorn.io/control-plane
+        - key: node-role.kubernetes.io/control-plane
           operator: "Exists"
     startupapicheck:
       tolerations:
-        - key: taints.acorn.io/control-plane
+        - key: node-role.kubernetes.io/control-plane
           operator: "Exists"

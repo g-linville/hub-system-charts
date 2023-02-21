@@ -8,13 +8,13 @@ spec:
   bootstrap: true
   valuesContent: |
     controller:
-      k8sTagClusterId: daishan-sandbox
-      region: us-east-2
+      k8sTagClusterId: {{ .Values.clusterName }}
+      region: {{ .Values.region }}
       serviceAccount:
         annotations:
           eks.amazonaws.com/role-arn: {{ .Values.roleArn }}
       tolerations:
-        - key: taints.acorn.io/control-plane
+        - key: node-role.kubernetes.io/control-plane
           operator: "Exists"
     installCRDs: true
     node:

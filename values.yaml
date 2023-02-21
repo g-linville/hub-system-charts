@@ -7,3 +7,5 @@ clusterName: ""
 roleArn: ""
 
 targetVpcId: ""
+
+region: ""

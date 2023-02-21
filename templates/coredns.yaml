@@ -101,7 +101,7 @@ spec:
       tolerations:
         - key: "CriticalAddonsOnly"
           operator: "Exists"
-        - key: "taints.acorn.io/control-plane"
+        - key: "node-role.kubernetes.io/control-plane"
           operator: "Exists"
           effect: "NoSchedule"
       nodeSelector:

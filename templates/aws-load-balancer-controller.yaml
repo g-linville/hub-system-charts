@@ -9,7 +9,7 @@ spec:
   valuesContent: |
     tolerations:
       - effect: NoSchedule
-        key: taints.acorn.io/control-plane
+        key: node-role.kubernetes.io/control-plane
         operator: Exists
     image:
       repository: amazon/aws-alb-ingress-controller
