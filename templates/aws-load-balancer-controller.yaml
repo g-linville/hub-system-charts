@@ -1,3 +1,4 @@
+{{ if .Values.awsLBController }}
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -7,6 +8,7 @@ spec:
   chart: https://aws.github.io/eks-charts/aws-load-balancer-controller-1.4.7.tgz
   bootstrap: true
   valuesContent: |
+    replicaCount: 1
     tolerations:
       - effect: NoSchedule
         key: node-role.kubernetes.io/control-plane
@@ -20,4 +22,5 @@ spec:
     serviceAccount:
       name: aws-load-balancer-controller
       annotations:
-        eks.amazonaws.com/role-arn: {{ .Values.roleArn }}
+        eks.amazonaws.com/role-arn: {{ .Values.lbControllerRoleArn }}
+{{ end }}

@@ -1,3 +1,4 @@
+{{ if .Values.traefik }}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -69,3 +70,7 @@ spec:
       podAnnotations:
         linkerd.io/inject: ingress
         config.linkerd.io/skip-outbound-ports: "443"
+    tolerations:
+      - key: taints.acorn.io/workload
+        operator: "Exists"
+{{ end }}

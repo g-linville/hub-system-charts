@@ -1,0 +1,70 @@
+{{ if .Values.acorn }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: acorn-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "acorn-init"
+  namespace: acorn-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: acorn-init-cluster-admin-binding
+subjects:
+  - kind: ServiceAccount
+    name: acorn-init
+    namespace: acorn-system
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: acorn-config
+  namespace: acorn-system
+data:
+  config: |
+    {
+      "acornDNS": "enabled",
+      "letsEncrypt": "enabled",
+      "letsEncryptTosAgree": true,
+      "letsEncryptEmail": "engineering@acorn.io",
+      "checks": "false",
+      "skipChecks": "true",
+      "builderPerNamespace": true,
+      "builderPerProject": true,
+      "publishBuilders": true,
+      "internalRegistryPrefix": "null.acrn.io/"
+    }
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: acorn-install
+  namespace: acorn-system
+spec:
+  schedule: "*/2 * * * *"
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 60
+      template:
+        spec:
+          containers:
+            - name: acorn-init
+              image: "ghcr.io/acorn-io/acorn:main"
+              imagePullPolicy: Always
+              command: ["acorn", "init"]
+          restartPolicy: Never
+          serviceAccountName: acorn-init
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              operator: "Exists"
+{{ end }}

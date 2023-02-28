@@ -1,3 +1,4 @@
+{{ if .Values.coredns }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -104,6 +105,8 @@ spec:
         - key: "node-role.kubernetes.io/control-plane"
           operator: "Exists"
           effect: "NoSchedule"
+        - key: "taints.acorn.io/workload"
+          operator: "Exists"
       nodeSelector:
         beta.kubernetes.io/os: linux
       topologySpreadConstraints:
@@ -209,3 +212,4 @@ spec:
     - name: metrics
       port: 9153
       protocol: TCP
+{{ end }}

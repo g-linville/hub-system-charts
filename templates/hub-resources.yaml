@@ -1,0 +1,35 @@
+{{ if .Values.hubResources }}
+apiVersion: api.acorn.io/v1
+kind: App
+metadata:
+  name: cluster-agent
+  namespace: acorn
+spec:
+  autoUpgrade: true
+  autoUpgradeInterval: 15s
+  profiles:
+    - cluster-agent
+  deployArgs:
+    accountUrL: ""
+  image: ghcr.io/acorn-io/hub:main
+  permissions:
+    - clusterRules:
+        - apiGroups:
+            - '*'
+          resources:
+            - '*'
+          verbs:
+            - get
+            - list
+            - watch
+            - update
+            - patch
+            - delete
+            - deletecollection
+            - create
+      serviceName: cluster-agent
+  secrets:
+    - target: token-cluster-agent
+      secret: token-cluster-agent
+---
+{{ end }}

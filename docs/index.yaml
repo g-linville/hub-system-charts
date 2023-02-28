@@ -1,16 +1,29 @@
 apiVersion: v1
 entries:
+  aws-cloud-controller-manager:
+  - apiVersion: v1
+    appVersion: v1.23.0-alpha.0
+    created: "2023-03-23T15:23:56.932963-07:00"
+    description: Installs Cloud Controller Manager for AWS Cloud Provider
+    digest: 9f5ef334667851af15a0870cfda28a77120f0268d58c0cb785d787ac40467b49
+    maintainers:
+    - email: nic@amazon.com
+      name: Nick Turner
+    name: aws-cloud-controller-manager
+    urls:
+    - https://acorn-io.github.io/hub-system-charts/aws-cloud-controller-manager-0.0.7.tgz
+    version: 0.0.7
   hub-system-charts:
   - apiVersion: v1
     appVersion: v0.0.1
-    created: "2023-02-21T14:02:04.831179-07:00"
+    created: "2023-03-23T15:23:56.93333-07:00"
     description: System chart for acorn hub controlplane
-    digest: 8fe966406a2b01a9378c368e747651f67cbb9e0ae5397852e6cf80e573994f17
+    digest: 13c382220db1a1baa3dafdfe5050fafaa5185d542ffa3de06173e7d595b85563
     maintainers:
     - email: daishan@acorn.io
       name: Daishan Peng
     name: hub-system-charts
     urls:
-    - https://acorn-io.github.io/hub-system-charts/docs/hub-system-charts-0.0.1.tgz
+    - https://acorn-io.github.io/hub-system-charts/hub-system-charts-0.0.1.tgz
     version: 0.0.1
-generated: "2023-02-21T14:02:04.829987-07:00"
+generated: "2023-03-23T15:23:56.928573-07:00"

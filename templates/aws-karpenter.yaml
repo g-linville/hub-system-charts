@@ -1,0 +1,32 @@
+{{ if .Values.awsKarpenter }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: karpenter
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: aws-karpenter
+  namespace: kube-system
+spec:
+  bootstrap: true
+  chart: "oci://public.ecr.aws/karpenter/karpenter"
+  version: "v0.26.1"
+  targetNamespace: karpenter
+  valuesContent: |
+    replicas: 1
+    clusterEndpoint: {{ .Values.clusterEndpoint }}
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: {{ .Values.karpenterRoleArn }}
+    settings:
+      aws:
+        clusterName: {{ .Values.clusterName }}
+        interruptionQueueName: {{ .Values.clusterName }}
+        clusterEndpoint: {{ .Values.clusterEndpoint }}
+        nodeNameConvention: resource-name
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: "Exists"
+{{ end }}

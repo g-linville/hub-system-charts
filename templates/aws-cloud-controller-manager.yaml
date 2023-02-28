@@ -1,11 +1,11 @@
+{{ if .Values.awsCcm }}
 apiVersion: v1
 data:
   cloudconfig: |
     [global]
       VPC = {{ .Values.vpcId }}
-      SubnetID = {{ .Values.subnetId }}
+      SubnetID = "fake"
       KubernetesClusterID = {{ .Values.clusterName }}
-      RoleARN = {{ .Values.roleArn }}
 kind: ConfigMap
 metadata:
   name: aws-cloud-config
@@ -18,7 +18,7 @@ metadata:
   namespace: kube-system
 spec:
   bootstrap: true
-  chart: https://github.com/kubernetes/cloud-provider-aws/releases/download/helm-chart-aws-cloud-controller-manager-0.0.7/aws-cloud-controller-manager-0.0.7.tgz
+  chart: https://acorn-io.github.io/hub-system-charts/aws-cloud-controller-manager-0.0.7.tgz
   targetNamespace: kube-system
   valuesContent: |
     args:
@@ -29,6 +29,9 @@ spec:
     - --cloud-config=/etc/aws/cloudconfig
     - --configure-cloud-routes=false
     hostNetworking: true
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: {{ .Values.ccmRoleArn }}
     tolerations:
     - key: node-role.kubernetes.io/control-plane
       operator: "Exists"
@@ -40,3 +43,4 @@ spec:
         defaultMode: 420
         name: aws-cloud-config
       name: config
+{{ end }}

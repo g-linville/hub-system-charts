@@ -1,0 +1,53 @@
+{{ if .Values.awsKarpenterProvisioner }}
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: default
+spec:
+  providerRef:
+    name: worker-nodetemplate
+  taints:
+    - key: taints.acorn.io/workload
+      effect: NoSchedule
+  labels:
+    provisioned_by: karpenter
+  requirements:
+    - key: "karpenter.k8s.aws/instance-category"
+      operator: In
+      values: ["t", "r"]
+    - key: "node.kubernetes.io/instance-type"
+      operator: In
+      values: ["t3.xlarge", "r5.xlarge"]
+    - key: "karpenter.k8s.aws/instance-hypervisor"
+      operator: In
+      values: ["nitro"]
+    - key: "topology.kubernetes.io/zone"
+      operator: In
+      values: ["{{ .Values.region }}a", "{{ .Values.region }}b", "{{ .Values.region }}c"]
+    - key: "kubernetes.io/arch"
+      operator: In
+      values: ["amd64"]
+    - key: "karpenter.sh/capacity-type"
+      operator: In
+      values: ["on-demand"]
+  limits:
+    resources:
+      cpu: "16"
+      memory: 64Gi
+  ttlSecondsAfterEmpty: 900
+  weight: 1
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: worker-nodetemplate
+spec:
+  subnetSelector:
+    aws-ids: "{{ .Values.subnetIds }}"
+  launchTemplate: "launchtemplate-{{ .Values.clusterName }}"
+  tags:
+    Name: "launchtemplate-{{ .Values.clusterName }}"
+    karpenter.sh/provisioner-name: default
+    kubernetes.io/cluster/{{ .Values.clusterName }}: owned
+    karpenter.sh/discovery: {{ .Values.clusterName }}
+{{ end }}
