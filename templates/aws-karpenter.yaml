@@ -19,7 +19,11 @@ spec:
     clusterEndpoint: {{ .Values.clusterEndpoint }}
     serviceAccount:
       annotations:
+<<<<<<< HEAD
         eks.amazonaws.com/role-arn: {{ .Values.karpenterRoleArn }}
+=======
+        eks.amazonaws.com/role-arn: {{ .Values.roleArn }}
+>>>>>>> c233aba (More chart fix)
     settings:
       aws:
         clusterName: {{ .Values.clusterName }}

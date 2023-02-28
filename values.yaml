@@ -29,5 +29,5 @@ coredns: true
 traefik: true
 acorn: true
 awsKarpenter: true
-awsKarpenterProvisioner: true
 hubResources: true
+awsKarpenterProvisioner: true

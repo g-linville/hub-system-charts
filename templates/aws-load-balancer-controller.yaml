@@ -22,5 +22,9 @@ spec:
     serviceAccount:
       name: aws-load-balancer-controller
       annotations:
+<<<<<<< HEAD
         eks.amazonaws.com/role-arn: {{ .Values.lbControllerRoleArn }}
+=======
+        eks.amazonaws.com/role-arn: {{ .Values.roleArn }}
+>>>>>>> c233aba (More chart fix)
 {{ end }}

@@ -49,7 +49,11 @@ metadata:
   name: acorn-install
   namespace: acorn-system
 spec:
+<<<<<<< HEAD
   schedule: "*/2 * * * *"
+=======
+  schedule: "*/15 * * * *"
+>>>>>>> c233aba (More chart fix)
   successfulJobsHistoryLimit: 2
   failedJobsHistoryLimit: 2
   jobTemplate:
