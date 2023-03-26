@@ -31,11 +31,7 @@ spec:
     hostNetworking: true
     serviceAccount:
       annotations:
-<<<<<<< HEAD
         eks.amazonaws.com/role-arn: {{ .Values.ccmRoleArn }}
-=======
-        eks.amazonaws.com/role-arn: {{ .Values.roleArn }}
->>>>>>> c233aba (More chart fix)
     tolerations:
     - key: node-role.kubernetes.io/control-plane
       operator: "Exists"

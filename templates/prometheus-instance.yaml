@@ -1,0 +1,93 @@
+{{ if .Values.prometheusInstance }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: prometheus-operator
+spec:
+  serviceAccountName: prometheus
+  retention: "2h"
+  tolerations:
+  - key: taints.acorn.io/workload
+    operator: "Exists"
+  containers:
+  - name: prometheus
+    args:
+    - "--config.file=/etc/prometheus/config_out/prometheus.env.yaml"
+    - "--storage.agent.path=/prometheus"
+    - "--web.enable-lifecycle"
+    - "--enable-feature=agent"
+  remoteWrite:
+  - url: {{ .Values.prometheusRemoteWriteEndpoint }}
+    name: {{ .Values.clusterName }}
+    remoteTimeout: "5s"
+    sigv4:
+      region: {{ .Values.region }}
+    queueConfig:
+      maxSamplesPerSend: 1000
+      maxShards: 200
+      capacity: 2500
+  resources:
+    requests:
+      memory: 1500Mi
+  enableAdminAPI: false
+  probeSelector:
+    matchLabels:
+      release: prometheus-operator
+  serviceMonitorSelector:
+    matchLabels:
+      release: prometheus-operator
+  podMonitorSelector:
+    matchLabels:
+      release: prometheus-operator
+  additionalScrapeConfigs:
+    key: "config"
+    name: linkerd-scrape-config
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: prometheus-operator
+  annotations:
+    eks.amazonaws.com/role-arn: {{ .Values.prometheusIngestArn }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+- apiGroups: [""]
+  resources:
+  - nodes
+  - nodes/metrics
+  - services
+  - endpoints
+  - pods
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources:
+  - configmaps
+  verbs: ["get"]
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs: ["get", "list", "watch"]
+- nonResourceURLs: ["/metrics", "/metrics/cadvisor"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+- kind: ServiceAccount
+  name: prometheus
+  namespace: prometheus-operator
+{{ end }}

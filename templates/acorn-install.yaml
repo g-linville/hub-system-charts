@@ -49,11 +49,7 @@ metadata:
   name: acorn-install
   namespace: acorn-system
 spec:
-<<<<<<< HEAD
   schedule: "*/2 * * * *"
-=======
-  schedule: "*/15 * * * *"
->>>>>>> c233aba (More chart fix)
   successfulJobsHistoryLimit: 2
   failedJobsHistoryLimit: 2
   jobTemplate:
@@ -65,7 +61,7 @@ spec:
             - name: acorn-init
               image: "ghcr.io/acorn-io/acorn:main"
               imagePullPolicy: Always
-              command: ["acorn", "init"]
+              command: ["acorn", "init", "--skip-checks"]
           restartPolicy: Never
           serviceAccountName: acorn-init
           tolerations:

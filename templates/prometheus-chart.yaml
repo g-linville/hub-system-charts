@@ -1,0 +1,105 @@
+{{ if .Values.prometheus }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prometheus-operator
+  labels:
+    release: prometheus-operator
+  annotations:
+    linkerd.io/inject: disabled
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: prometheus-operator
+  namespace: kube-system
+spec:
+  bootstrap: true
+  chart: https://github.com/prometheus-community/helm-charts/releases/download/kube-prometheus-stack-44.3.1/kube-prometheus-stack-44.3.1.tgz
+  targetNamespace: prometheus-operator
+  valuesContent: |
+    prometheusOperator:
+      serviceMonitor:
+        relabelings:
+        - sourceLabels:
+          - __address__
+          action: replace
+          targetLabel: job
+          replacement: prometheus-operator
+      admissionWebhooks:
+        patch:
+          podAnnotations:
+            linkerd.io/inject: disabled
+          tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            operator: "Exists"
+      kubeletService:
+        enabled: true
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: "Exists"
+    prometheus-node-exporter:
+      tolerations:
+      - key: taints.acorn.io/workload
+        operator: "Exists"
+    kube-state-metrics:
+      tolerations:
+      - key: taints.acorn.io/workload
+        operator: "Exists"
+      metricLabelsAllowlist:
+      - namespaces=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - deployments=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - pods=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - jobs=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - cronjobs=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - services=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - secrets=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - configmaps=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - persistentvolumes=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+      - persistentvolumeclaims=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
+    prometheus:
+      enabled: false
+    alertmanager:
+      enabled: false
+    grafana:
+      enabled: false
+    kubelet:
+      enabled: true
+    kubeApiServer:
+      enabled: false
+    coreDns: 
+      enabled: false
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    defaultRules:
+      create: true
+      rules:
+        etcd: false
+        k8s: false
+        kubeApiserverAvailability: false
+        kubeApiserverBurnrate: false
+        kubeApiserverHistogram: false
+        kubeApiserverSlos: false
+        kubeControllerManager: false
+        kubelet: false
+        kubeProxy: false
+        kubernetesApps: false
+        kubernetesResources: false
+        kubernetesStorage: false
+        kubernetesSystem: false
+        kubeScheduler: false
+---
+apiVersion: v1
+data:
+  config: LSBqb2JfbmFtZTogJ2xpbmtlcmQtY29udHJvbGxlcicKICBrdWJlcm5ldGVzX3NkX2NvbmZpZ3M6CiAgLSByb2xlOiBwb2QKICAgIG5hbWVzcGFjZXM6CiAgICAgIG5hbWVzOgogICAgICAtICdsaW5rZXJkJwogICAgICAtICdsaW5rZXJkJwogIHJlbGFiZWxfY29uZmlnczoKICAtIHNvdXJjZV9sYWJlbHM6CiAgICAtIF9fbWV0YV9rdWJlcm5ldGVzX3BvZF9jb250YWluZXJfcG9ydF9uYW1lCiAgICBhY3Rpb246IGtlZXAKICAgIHJlZ2V4OiBhZG1pbi1odHRwCiAgLSBzb3VyY2VfbGFiZWxzOiBbX19tZXRhX2t1YmVybmV0ZXNfcG9kX2NvbnRhaW5lcl9uYW1lXQogICAgYWN0aW9uOiByZXBsYWNlCiAgICB0YXJnZXRfbGFiZWw6IGNvbXBvbmVudAoKLSBqb2JfbmFtZTogJ2xpbmtlcmQtc2VydmljZS1taXJyb3InCiAga3ViZXJuZXRlc19zZF9jb25maWdzOgogIC0gcm9sZTogcG9kCiAgcmVsYWJlbF9jb25maWdzOgogIC0gc291cmNlX2xhYmVsczoKICAgIC0gX19tZXRhX2t1YmVybmV0ZXNfcG9kX2xhYmVsX2xpbmtlcmRfaW9fY29udHJvbF9wbGFuZV9jb21wb25lbnQKICAgIC0gX19tZXRhX2t1YmVybmV0ZXNfcG9kX2NvbnRhaW5lcl9wb3J0X25hbWUKICAgIGFjdGlvbjoga2VlcAogICAgcmVnZXg6IGxpbmtlcmQtc2VydmljZS1taXJyb3I7YWRtaW4taHR0cCQKICAtIHNvdXJjZV9sYWJlbHM6IFtfX21ldGFfa3ViZXJuZXRlc19wb2RfY29udGFpbmVyX25hbWVdCiAgICBhY3Rpb246IHJlcGxhY2UKICAgIHRhcmdldF9sYWJlbDogY29tcG9uZW50CgotIGpvYl9uYW1lOiAnbGlua2VyZC1wcm94eScKICBrdWJlcm5ldGVzX3NkX2NvbmZpZ3M6CiAgLSByb2xlOiBwb2QKICByZWxhYmVsX2NvbmZpZ3M6CiAgLSBzb3VyY2VfbGFiZWxzOgogICAgLSBfX21ldGFfa3ViZXJuZXRlc19wb2RfY29udGFpbmVyX25hbWUKICAgIC0gX19tZXRhX2t1YmVybmV0ZXNfcG9kX2NvbnRhaW5lcl9wb3J0X25hbWUKICAgIC0gX19tZXRhX2t1YmVybmV0ZXNfcG9kX2xhYmVsX2xpbmtlcmRfaW9fY29udHJvbF9wbGFuZV9ucwogICAgYWN0aW9uOiBrZWVwCiAgICByZWdleDogXmxpbmtlcmQtcHJveHk7bGlua2VyZC1hZG1pbjtsaW5rZXJkJAogIC0gc291cmNlX2xhYmVsczogW19fbWV0YV9rdWJlcm5ldGVzX25hbWVzcGFjZV0KICAgIGFjdGlvbjogcmVwbGFjZQogICAgdGFyZ2V0X2xhYmVsOiBuYW1lc3BhY2UKICAtIHNvdXJjZV9sYWJlbHM6IFtfX21ldGFfa3ViZXJuZXRlc19wb2RfbmFtZV0KICAgIGFjdGlvbjogcmVwbGFjZQogICAgdGFyZ2V0X2xhYmVsOiBwb2QKICAjIHNwZWNpYWwgY2FzZSBrOHMnICJqb2IiIGxhYmVsLCB0byBub3QgaW50ZXJmZXJlIHdpdGggcHJvbWV0aGV1cycgImpvYiIKICAjIGxhYmVsCiAgIyBfX21ldGFfa3ViZXJuZXRlc19wb2RfbGFiZWxfbGlua2VyZF9pb19wcm94eV9qb2I9Zm9vID0+CiAgIyBrOHNfam9iPWZvbwogIC0gc291cmNlX2xhYmVsczogW19fbWV0YV9rdWJlcm5ldGVzX3BvZF9sYWJlbF9saW5rZXJkX2lvX3Byb3h5X2pvYl0KICAgIGFjdGlvbjogcmVwbGFjZQogICAgdGFyZ2V0X2xhYmVsOiBrOHNfam9iCiAgIyBkcm9wIF9fbWV0YV9rdWJlcm5ldGVzX3BvZF9sYWJlbF9saW5rZXJkX2lvX3Byb3h5X2pvYgogIC0gYWN0aW9uOiBsYWJlbGRyb3AKICAgIHJlZ2V4OiBfX21ldGFfa3ViZXJuZXRlc19wb2RfbGFiZWxfbGlua2VyZF9pb19wcm94eV9qb2IKICAjIF9fbWV0YV9rdWJlcm5ldGVzX3BvZF9sYWJlbF9saW5rZXJkX2lvX3Byb3h5X2RlcGxveW1lbnQ9Zm9vID0+CiAgIyBkZXBsb3ltZW50PWZvbwogIC0gYWN0aW9uOiBsYWJlbG1hcAogICAgcmVnZXg6IF9fbWV0YV9rdWJlcm5ldGVzX3BvZF9sYWJlbF9saW5rZXJkX2lvX3Byb3h5XyguKykKICAjIGRyb3AgYWxsIGxhYmVscyB0aGF0IHdlIGp1c3QgbWFkZSBjb3BpZXMgb2YgaW4gdGhlIHByZXZpb3VzIGxhYmVsbWFwCiAgLSBhY3Rpb246IGxhYmVsZHJvcAogICAgcmVnZXg6IF9fbWV0YV9rdWJlcm5ldGVzX3BvZF9sYWJlbF9saW5rZXJkX2lvX3Byb3h5XyguKykKICAjIF9fbWV0YV9rdWJlcm5ldGVzX3BvZF9sYWJlbF9saW5rZXJkX2lvX2Zvbz1iYXIgPT4KICAjIGZvbz1iYXIKICAtIGFjdGlvbjogbGFiZWxtYXAKICAgIHJlZ2V4OiBfX21ldGFfa3ViZXJuZXRlc19wb2RfbGFiZWxfbGlua2VyZF9pb18oLispCiAgIyBDb3B5IGFsbCBwb2QgbGFiZWxzIHRvIHRtcCBsYWJlbHMKICAtIGFjdGlvbjogbGFiZWxtYXAKICAgIHJlZ2V4OiBfX21ldGFfa3ViZXJuZXRlc19wb2RfbGFiZWxfKC4rKQogICAgcmVwbGFjZW1lbnQ6IF9fdG1wX3BvZF9sYWJlbF8kMQogICMgVGFrZSBgbGlua2VyZF9pb19gIHByZWZpeGVkIGxhYmVscyBhbmQgY29weSB0aGVtIHdpdGhvdXQgdGhlIHByZWZpeAogIC0gYWN0aW9uOiBsYWJlbG1hcAogICAgcmVnZXg6IF9fdG1wX3BvZF9sYWJlbF9saW5rZXJkX2lvXyguKykKICAgIHJlcGxhY2VtZW50OiAgX190bXBfcG9kX2xhYmVsXyQxCiAgIyBEcm9wIHRoZSBgbGlua2VyZF9pb19gIG9yaWdpbmFscwogIC0gYWN0aW9uOiBsYWJlbGRyb3AKICAgIHJlZ2V4OiBfX3RtcF9wb2RfbGFiZWxfbGlua2VyZF9pb18oLispCiAgIyBDb3B5IHRtcCBsYWJlbHMgaW50byByZWFsIGxhYmVscwogIC0gYWN0aW9uOiBsYWJlbG1hcAogICAgcmVnZXg6IF9fdG1wX3BvZF9sYWJlbF8oLispCg==
+kind: Secret
+metadata:
+  name: linkerd-scrape-config
+  namespace: prometheus-operator
+{{end}}
