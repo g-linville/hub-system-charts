@@ -1,0 +1,79 @@
+{{ if .Values.linkerdCerts }}
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: linkerd
+  annotations:
+    linkerd.io/inject: disabled
+  labels:
+    linkerd.io/is-control-plane: "true"
+    config.linkerd.io/admission-webhooks: disabled
+    linkerd.io/control-plane-ns: linkerd
+    pod-security.kubernetes.io/enforce: restricted
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: self-signed-issuer
+  namespace: cert-manager
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: linkerd-root-ca
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: self-signed-linkerd-ca
+  secretName: linkerd-trust-anchor
+  duration: 87660h
+  renewBefore: 8760h
+  usages:
+  - cert sign
+  - crl sign
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: self-signed-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: linkerd-ca-issuer
+  namespace: cert-manager
+spec:
+  ca:
+    secretName: linkerd-trust-anchor
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: linkerd-identity-issuer
+  namespace: linkerd
+spec:
+  secretName: linkerd-identity-issuer
+  # 30 days
+  duration: 744h
+  # renew before 1 week remaining
+  renewBefore: 168h
+  issuerRef:
+    name: linkerd-ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  commonName: identity.linkerd.cluster.local
+  dnsNames:
+  - identity.linkerd.cluster.local
+  isCA: true
+  privateKey:
+    algorithm: ECDSA
+  usages:
+  - cert sign
+  - crl sign
+  - server auth
+  - client auth
+{{ end }}

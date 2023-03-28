@@ -1,0 +1,27 @@
+{{ if .Values.linkerdCni }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: linkerd-cni
+  labels:
+    config.linkerd.io/admission-webhooks: disabled
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: linkerd-cni
+  namespace: kube-system
+spec:
+  bootstrap: true
+  chart:  https://helm.linkerd.io/stable/linkerd2-cni-30.3.6.tgz
+  targetNamespace: linkerd-cni
+  valuesContent: |
+    destCNINetDir: "/var/lib/rancher/k3s/agent/etc/cni/net.d"
+    destCNIBinDir: "/var/lib/rancher/k3s/data/current/bin"
+    logLevel: debug
+    tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: "Exists" 
+    - operator: Exists
+      key: taints.acorn.io/workload
+{{ end }}

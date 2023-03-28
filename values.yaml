@@ -20,6 +20,11 @@ karpenterRoleArn: ""
 clusterAgentAccountUrl: ""
 clusterAgentToken: ""
 
+# CFN output values.
+# prometheusRemoteWriteEndpoint should have '/api/v1/remote_write' appended.
+prometheusRemoteWriteEndpoint: ""
+prometheusIngestArn: ""
+
 awsCcm: true
 awsEbs: true
 awsIdentity: true
@@ -29,5 +34,16 @@ coredns: true
 traefik: true
 acorn: true
 awsKarpenter: true
-awsKarpenterProvisioner: true
 hubResources: true
+awsKarpenterProvisioner: true
+
+linkerdCerts: true
+linkerdCni: true
+# After linkerd installed
+linkerd: false
+# This needs to be pulled from the cert manager secret linkerd/identity-trust-issuer
+# Key: ca.crt
+linkerdTrustAnchorsPEM: |-
+prometheus: true
+# after prom chart install
+prometheusInstance: false
