@@ -3,9 +3,9 @@ entries:
   aws-cloud-controller-manager:
   - apiVersion: v1
     appVersion: v1.23.0-alpha.0
-    created: "2023-03-23T15:23:56.932963-07:00"
+    created: "2023-03-28T09:55:19.684291-07:00"
     description: Installs Cloud Controller Manager for AWS Cloud Provider
-    digest: 9f5ef334667851af15a0870cfda28a77120f0268d58c0cb785d787ac40467b49
+    digest: 92b76d16a74e43ba2759390a34bc784264967e1c60e5b195837c54afc66bc58d
     maintainers:
     - email: nic@amazon.com
       name: Nick Turner
@@ -16,9 +16,9 @@ entries:
   hub-system-charts:
   - apiVersion: v1
     appVersion: v0.0.1
-    created: "2023-03-23T15:23:56.93333-07:00"
+    created: "2023-03-28T09:55:19.684611-07:00"
     description: System chart for acorn hub controlplane
-    digest: 13c382220db1a1baa3dafdfe5050fafaa5185d542ffa3de06173e7d595b85563
+    digest: b5e4b98f82ff2b21554300765d689cdff856148c33c1afd90a42deb0ff2bab7d
     maintainers:
     - email: daishan@acorn.io
       name: Daishan Peng
@@ -26,4 +26,31 @@ entries:
     urls:
     - https://acorn-io.github.io/hub-system-charts/hub-system-charts-0.0.1.tgz
     version: 0.0.1
-generated: "2023-03-23T15:23:56.928573-07:00"
+  linkerd-control-plane:
+  - apiVersion: v2
+    appVersion: stable-2.12.4
+    created: "2023-03-28T09:55:19.685794-07:00"
+    dependencies:
+    - name: partials
+      repository: file://../partials
+      version: 0.1.0
+    description: 'Linkerd gives you observability, reliability, and security for your
+      microservices — with no code change required. '
+    digest: f2951fb445480b7a8a5c41b168d19b45a343e7c523d67df520d6959d37c19d4c
+    home: https://linkerd.io
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - service-mesh
+    kubeVersion: '>=1.21.0-0'
+    maintainers:
+    - email: cncf-linkerd-dev@lists.cncf.io
+      name: Linkerd authors
+      url: https://linkerd.io/
+    name: linkerd-control-plane
+    sources:
+    - https://github.com/linkerd/linkerd2/
+    type: application
+    urls:
+    - https://acorn-io.github.io/hub-system-charts/linkerd-control-plane-1.9.6.tgz
+    version: 1.9.6
+generated: "2023-03-28T09:55:19.68382-07:00"
