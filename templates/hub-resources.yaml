@@ -39,5 +39,5 @@ metadata:
   namespace: acorn
 type: secrets.acorn.io/token
 data:
-  token: {{ .Values.clusterAgentToken }}
+  token: {{ .Values.clusterAgentToken | b64enc }}
 {{ end }}
