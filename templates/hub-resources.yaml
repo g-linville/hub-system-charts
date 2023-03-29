@@ -35,7 +35,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: token-account-agent
+  name: token-cluster-agent
   namespace: acorn
 type: secrets.acorn.io/token
 data:
