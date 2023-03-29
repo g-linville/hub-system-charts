@@ -13,6 +13,7 @@ spec:
     accountFqdn: {{ .Values.clusterAgentAccountUrl }}
     region: {{ .Values.region }}
     accountName: {{ .Values.clusterAgentAccountName }}
+    hubUrl: {{ .Values.hubUrl }}
   image: ghcr.io/acorn-io/hub:main
   permissions:
     - clusterRules:
