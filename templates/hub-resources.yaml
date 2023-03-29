@@ -10,7 +10,9 @@ spec:
   profiles:
     - cluster-agent
   deployArgs:
-    hubUrl: {{ .Values.clusterAgentAccountUrl }}
+    accountFqdn: {{ .Values.clusterAgentAccountUrl }}
+    region: {{ .Values.region }}
+    accountName: {{ .Values.clusterAgentAccountName }}
   image: ghcr.io/acorn-io/hub:main
   permissions:
     - clusterRules:

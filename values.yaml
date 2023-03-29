@@ -19,6 +19,7 @@ karpenterRoleArn: ""
 
 clusterAgentAccountUrl: ""
 clusterAgentToken: ""
+clusterAgentAccountName: ""
 
 # CFN output values.
 # prometheusRemoteWriteEndpoint should have '/api/v1/remote_write' appended.
