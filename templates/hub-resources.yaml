@@ -10,7 +10,7 @@ spec:
   profiles:
     - cluster-agent
   deployArgs:
-    accountUrL: ""
+    hubUrl: {{ .Values.clusterAgentAccountUrl }}
   image: ghcr.io/acorn-io/hub:main
   permissions:
     - clusterRules:
@@ -32,4 +32,12 @@ spec:
     - target: token-cluster-agent
       secret: token-cluster-agent
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: token-account-agent
+  namespace: acorn
+type: secrets.acorn.io/token
+data:
+  token: {{ .Values.clusterAgentToken }}
 {{ end }}

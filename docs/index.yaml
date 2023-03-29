@@ -1,57 +1,56 @@
 apiVersion: v1
 entries:
   aws-cloud-controller-manager:
-    - apiVersion: v1
-      appVersion: v1.23.0-alpha.0
-      created: "2023-03-28T09:55:19.684291-07:00"
-      description: Installs Cloud Controller Manager for AWS Cloud Provider
-      digest: 92b76d16a74e43ba2759390a34bc784264967e1c60e5b195837c54afc66bc58d
-      maintainers:
-        - email: nic@amazon.com
-          name: Nick Turner
-      name: aws-cloud-controller-manager
-      urls:
-        - https://acorn-io.github.io/hub-system-charts/aws-cloud-controller-manager-0.0.7.tgz
-      version: 0.0.7
+  - apiVersion: v1
+    appVersion: v1.23.0-alpha.0
+    created: "2023-03-28T19:00:43.264318-07:00"
+    description: Installs Cloud Controller Manager for AWS Cloud Provider
+    digest: 14f68573b7c2611f47dbb55abfd09c0db602039ed6fa648b1b4b2cd62b54ba4d
+    maintainers:
+    - email: nic@amazon.com
+      name: Nick Turner
+    name: aws-cloud-controller-manager
+    urls:
+    - https://acorn-io.github.io/hub-system-charts/aws-cloud-controller-manager-0.0.7.tgz
+    version: 0.0.7
   hub-system-charts:
-    - apiVersion: v1
-      appVersion: v0.0.1
-      created: "2023-03-28T09:55:19.684611-07:00"
-      description: System chart for acorn hub controlplane
-      digest: b5e4b98f82ff2b21554300765d689cdff856148c33c1afd90a42deb0ff2bab7d
-      maintainers:
-        - email: daishan@acorn.io
-          name: Daishan Peng
-      name: hub-system-charts
-      urls:
-        - https://acorn-io.github.io/hub-system-charts/hub-system-charts-0.0.1.tgz
-      version: 0.0.1
+  - apiVersion: v1
+    appVersion: v0.0.1
+    created: "2023-03-28T19:00:43.266014-07:00"
+    description: System chart for acorn hub controlplane
+    digest: d86a0d93d26ca1acb901274addfebb88b4691345c4b33e772798b46367372a3a
+    maintainers:
+    - email: daishan@acorn.io
+      name: Daishan Peng
+    name: hub-system-charts
+    urls:
+    - https://acorn-io.github.io/hub-system-charts/hub-system-charts-0.0.1.tgz
+    version: 0.0.1
   linkerd-control-plane:
-    - apiVersion: v2
-      appVersion: stable-2.12.4
-      created: "2023-03-28T09:55:19.685794-07:00"
-      dependencies:
-        - name: partials
-          repository: file://../partials
-          version: 0.1.0
-      description:
-        "Linkerd gives you observability, reliability, and security for your
-        microservices — with no code change required. "
-      digest: f2951fb445480b7a8a5c41b168d19b45a343e7c523d67df520d6959d37c19d4c
-      home: https://linkerd.io
-      icon: https://linkerd.io/images/logo-only-200h.png
-      keywords:
-        - service-mesh
-      kubeVersion: ">=1.21.0-0"
-      maintainers:
-        - email: cncf-linkerd-dev@lists.cncf.io
-          name: Linkerd authors
-          url: https://linkerd.io/
-      name: linkerd-control-plane
-      sources:
-        - https://github.com/linkerd/linkerd2/
-      type: application
-      urls:
-        - https://acorn-io.github.io/hub-system-charts/linkerd-control-plane-1.9.6.tgz
-      version: 1.9.6
-generated: "2023-03-28T09:55:19.68382-07:00"
+  - apiVersion: v2
+    appVersion: stable-2.12.4
+    created: "2023-03-28T19:00:43.267198-07:00"
+    dependencies:
+    - name: partials
+      repository: file://../partials
+      version: 0.1.0
+    description: 'Linkerd gives you observability, reliability, and security for your
+      microservices — with no code change required. '
+    digest: 48191696bd8e27b488e14fb037e1f16cb56551960e8a90936c71b79ec15408f1
+    home: https://linkerd.io
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - service-mesh
+    kubeVersion: '>=1.21.0-0'
+    maintainers:
+    - email: cncf-linkerd-dev@lists.cncf.io
+      name: Linkerd authors
+      url: https://linkerd.io/
+    name: linkerd-control-plane
+    sources:
+    - https://github.com/linkerd/linkerd2/
+    type: application
+    urls:
+    - https://acorn-io.github.io/hub-system-charts/linkerd-control-plane-1.9.6.tgz
+    version: 1.9.6
+generated: "2023-03-28T19:00:43.263634-07:00"
