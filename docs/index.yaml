@@ -3,9 +3,9 @@ entries:
   aws-cloud-controller-manager:
   - apiVersion: v1
     appVersion: v1.23.0-alpha.0
-    created: "2023-03-30T10:59:39.109846-07:00"
+    created: "2023-03-30T13:11:52.656346-07:00"
     description: Installs Cloud Controller Manager for AWS Cloud Provider
-    digest: f374b70b858e8a4f64f67fe67e076104d315ed66971418e8b6893f3be8186d79
+    digest: 95d738c6042e4653f1b1e5ebf95c3cdd7a6f94dd77836404c902a016b2315ae4
     maintainers:
     - email: nic@amazon.com
       name: Nick Turner
@@ -16,9 +16,9 @@ entries:
   hub-system-charts:
   - apiVersion: v1
     appVersion: v0.0.1
-    created: "2023-03-30T10:59:39.111605-07:00"
+    created: "2023-03-30T13:11:52.657885-07:00"
     description: System chart for acorn hub controlplane
-    digest: 4f17c96407dd79e054327e7ac841f44c3e74b57e452e66c6550ec16c29e8f5c5
+    digest: e61d9a3cf5c4a254cc256b393e74d67885ea777fd04e1a1f4bf7ae320329ebb6
     maintainers:
     - email: daishan@acorn.io
       name: Daishan Peng
@@ -29,14 +29,14 @@ entries:
   linkerd-control-plane:
   - apiVersion: v2
     appVersion: stable-2.12.4
-    created: "2023-03-30T10:59:39.112796-07:00"
+    created: "2023-03-30T13:11:52.659074-07:00"
     dependencies:
     - name: partials
       repository: file://../partials
       version: 0.1.0
     description: 'Linkerd gives you observability, reliability, and security for your
       microservices — with no code change required. '
-    digest: 310bb0b34273677b93b399e61c90b19880f62f94ed75414438a609dabf9a4ba0
+    digest: 0c880ef0cf89aa1ed8bf13d40d29b2046c5ba04c2cb0cb819ea1353b76ef7c4e
     home: https://linkerd.io
     icon: https://linkerd.io/images/logo-only-200h.png
     keywords:
@@ -53,4 +53,4 @@ entries:
     urls:
     - https://acorn-io.github.io/hub-system-charts/linkerd-control-plane-1.9.6.tgz
     version: 1.9.6
-generated: "2023-03-30T10:59:39.109101-07:00"
+generated: "2023-03-30T13:11:52.655852-07:00"

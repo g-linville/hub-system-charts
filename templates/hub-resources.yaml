@@ -54,18 +54,4 @@ kind: ClusterComputeClassInstance
 memory: {}
 metadata:
   name: default
----
-apiVersion: internal.admin.acorn.io/v1
-description: Acorn-generated volume class representing ephemeral volumes not backed by a storage class
-kind: ClusterVolumeClassInstance
-metadata:
-  name: ephemeral
----
-apiVersion: internal.admin.acorn.io/v1
-default: true
-description: Acorn-generated volume class representing the storage class ebs-retain
-kind: ClusterVolumeClassInstance
-metadata:
-  name: ebs-retain
-storageClassName: ebs-retain
 {{ end }}
