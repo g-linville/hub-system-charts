@@ -14,6 +14,8 @@ spec:
     region: {{ .Values.region }}
     accountName: {{ .Values.clusterAgentAccountName }}
     hubUrl: {{ .Values.hubUrl }}
+    accountPlacement: "dev-eng-hub-john-ua"
+    projectPlacement: "dev-eng-hub-john-uw-1"
   image: ghcr.io/acorn-io/hub:main
   permissions:
     - clusterRules:
@@ -43,4 +45,27 @@ metadata:
 type: secrets.acorn.io/token
 data:
   token: {{ .Values.clusterAgentToken | b64enc }}
+---
+apiVersion: internal.admin.acorn.io/v1
+cpuScaler: 0.25
+default: true
+description: Default offering
+kind: ClusterComputeClassInstance
+memory: {}
+metadata:
+  name: default
+---
+apiVersion: internal.admin.acorn.io/v1
+description: Acorn-generated volume class representing ephemeral volumes not backed by a storage class
+kind: ClusterVolumeClassInstance
+metadata:
+  name: ephemeral
+---
+apiVersion: internal.admin.acorn.io/v1
+default: true
+description: Acorn-generated volume class representing the storage class ebs-retain
+kind: ClusterVolumeClassInstance
+metadata:
+  name: ebs-retain
+storageClassName: ebs-retain
 {{ end }}
