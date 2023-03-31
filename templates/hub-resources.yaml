@@ -54,4 +54,6 @@ kind: ClusterComputeClassInstance
 memory: {}
 metadata:
   name: default
+supportedRegions:
+- local
 {{ end }}
