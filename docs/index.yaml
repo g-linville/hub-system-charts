@@ -3,9 +3,9 @@ entries:
   aws-cloud-controller-manager:
   - apiVersion: v1
     appVersion: v1.23.0-alpha.0
-    created: "2023-04-05T16:07:49.870611-07:00"
+    created: "2023-04-06T10:03:27.770761-04:00"
     description: Installs Cloud Controller Manager for AWS Cloud Provider
-    digest: f4ee6058f363673faf6530cb6d65afffc369094afc801a812bc331d24cf9a76b
+    digest: 5cca098eefbee4d3131e4892d6d9be0c2cfb9b50e07589441060d9a5d7f3756a
     maintainers:
     - email: nic@amazon.com
       name: Nick Turner
@@ -16,9 +16,9 @@ entries:
   hub-system-charts:
   - apiVersion: v1
     appVersion: v0.0.1
-    created: "2023-04-05T16:07:49.871391-07:00"
+    created: "2023-04-06T10:03:27.771601-04:00"
     description: System chart for acorn hub controlplane
-    digest: 8858eaecfa5a09960a58251c0f9e86841d90ffb5343c578f3130376060af38c0
+    digest: 7dd3ab61a73f9b329a9bc3ea7d5c493f2ea09e9804c909fd6a415ae289c24887
     maintainers:
     - email: daishan@acorn.io
       name: Daishan Peng
@@ -26,31 +26,21 @@ entries:
     urls:
     - https://acorn-io.github.io/hub-system-charts/hub-system-charts-0.0.1.tgz
     version: 0.0.1
-  linkerd-control-plane:
-  - apiVersion: v2
-    appVersion: stable-2.12.4
-    created: "2023-04-05T16:07:49.873538-07:00"
-    dependencies:
-    - name: partials
-      repository: file://../partials
-      version: 0.1.0
-    description: 'Linkerd gives you observability, reliability, and security for your
-      microservices — with no code change required. '
-    digest: 63ce4beced3afa5947a28be5846141bed1c06bde9d0ed052c098a0f932621cc4
-    home: https://linkerd.io
-    icon: https://linkerd.io/images/logo-only-200h.png
+  istiod:
+  - apiVersion: v1
+    appVersion: 1.17.1
+    created: "2023-04-06T10:03:27.774053-04:00"
+    description: Helm chart for istio control plane
+    digest: f2a431460b40e0b184e637a646054c93e484a91a3ddffef4483e0b0d228ff881
+    icon: https://istio.io/latest/favicons/android-192x192.png
     keywords:
-    - service-mesh
-    kubeVersion: '>=1.21.0-0'
-    maintainers:
-    - email: cncf-linkerd-dev@lists.cncf.io
-      name: Linkerd authors
-      url: https://linkerd.io/
-    name: linkerd-control-plane
+    - istio
+    - istiod
+    - istio-discovery
+    name: istiod
     sources:
-    - https://github.com/linkerd/linkerd2/
-    type: application
+    - http://github.com/istio/istio
     urls:
-    - https://acorn-io.github.io/hub-system-charts/linkerd-control-plane-1.9.6.tgz
-    version: 1.9.6
-generated: "2023-04-05T16:07:49.870148-07:00"
+    - https://acorn-io.github.io/hub-system-charts/istiod-1.17.1.tgz
+    version: 1.17.1
+generated: "2023-04-06T10:03:27.770291-04:00"

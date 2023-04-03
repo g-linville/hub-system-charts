@@ -41,9 +41,6 @@ spec:
   podMonitorSelector:
     matchLabels:
       release: prometheus-operator
-  additionalScrapeConfigs:
-    key: "config"
-    name: linkerd-scrape-config
 ---
 apiVersion: v1
 kind: ServiceAccount

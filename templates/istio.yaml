@@ -1,0 +1,68 @@
+{{ if .Values.istio }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: istio-cni
+  namespace: kube-system
+spec:
+  bootstrap: true
+  chart: https://istio-release.storage.googleapis.com/charts/cni-1.17.1.tgz
+  valuesContent: |
+    cni:
+      cniBinDir: /var/lib/rancher/k3s/data/current/bin
+      cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: istio-base
+  namespace: istio-system
+spec:
+  bootstrap: true
+  chart: https://istio-release.storage.googleapis.com/charts/base-1.17.1.tgz
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: istiod
+  namespace: istio-system
+spec:
+  bootstrap: true
+  chart: https://acorn-io.github.io/hub-system-charts/istiod-1.17.1.tgz
+  valuesContent: |
+    pilot:
+      podAnnotations:
+        ad.datadoghq.com/discovery.check_names: '["istio"]'
+        ad.datadoghq.com/discovery.init_configs: '[{}]'
+        ad.datadoghq.com/discovery.instances: |
+          [
+            {
+              "istiod_endpoint": "http://%%host%%:15014/metrics",
+              "use_openmetrics": "true"
+            }
+          ]
+      autoscaleMin: 2
+      replicaCount: 2
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+      - effect: NoSchedule
+        key: taints.acorn.io/workload
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: istio
+                operator: In
+                values:
+                - pilot
+            topologyKey: node-role.kubernetes.io/control-plane
+    istio_cni:
+      enabled: true
+{{ end }}
