@@ -29,8 +29,6 @@ spec:
       apiKeyExistingSecret: datadog-api-key
       site: datadoghq.com
       clusterName: {{ .Values.clusterName }}
-      networkMonitoring:
-        enable: true
       podLabelsAsTags:
         "acorn.io/app-name": acorn_io_app_name
         "acorn.io/job-name": acorn_io_job_name
