@@ -40,4 +40,11 @@ spec:
     clusterAgent:
       admissionController:
         enabled: false
+      tolerations:
+      - key: taints.acorn.io/workload
+        operator: "Exists"
+    agents:
+      tolerations:
+      - key: taints.acorn.io/workload
+        operator: "Exists"
 {{end}}
