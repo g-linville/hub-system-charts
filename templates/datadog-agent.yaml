@@ -27,7 +27,7 @@ spec:
   valuesContent: |
     datadog:
       apiKeyExistingSecret: datadog-api-key
-      site: datadoghq.com
+      site: us3.datadoghq.com
       clusterName: {{ .Values.clusterName }}
       podLabelsAsTags:
         "acorn.io/app-name": acorn_io_app_name
