@@ -34,7 +34,7 @@ data:
       "acornDNS": "enabled",
       "letsEncrypt": "enabled",
       "letsEncryptTosAgree": true,
-      "letsEncryptEmail": "engineering@acorn.io",
+      "letsEncryptEmail": "domains@acorn.io",
       "checks": "false",
       "skipChecks": "true",
       "builderPerNamespace": true,
