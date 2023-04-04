@@ -49,3 +49,7 @@ linkerdTrustAnchorsPEM: |-
 prometheus: true
 # after prom chart install
 prometheusInstance: false
+
+datadogAgent:
+  enabled: true
+  apiKey: ""
