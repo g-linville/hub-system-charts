@@ -12,8 +12,8 @@ kind: Secret
 metadata:
   name: datadog-api-key
   namespace: datadog-agent
-stringData:
-  api-key: {{ .Values.datadogAgent.apiKey }}
+data:
+  api-key: {{ .Values.datadogAgent.apiKey | b64enc }}
 ---
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
