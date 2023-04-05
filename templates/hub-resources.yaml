@@ -14,8 +14,6 @@ spec:
     region: {{ .Values.region }}
     accountName: {{ .Values.clusterAgentAccountName }}
     hubUrl: {{ .Values.hubUrl }}
-    accountPlacement: "dev-eng-hub-john-ua"
-    projectPlacement: "dev-eng-hub-john-uw-1"
   image: ghcr.io/acorn-io/hub:main
   permissions:
     - clusterRules:
