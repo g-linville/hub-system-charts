@@ -40,12 +40,15 @@ data:
       "builderPerNamespace": true,
       "builderPerProject": true,
       "publishBuilders": true,
-      "internalRegistryPrefix": "null.acrn.io/"
-      "serviceLBAnnotations": {
-        "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type": "instance",
-        "service.beta.kubernetes.io/aws-load-balancer-scheme": "internet-facing",
-        "service.beta.kubernetes.io/aws-load-balancer-type": "external"
-      }
+      "internalRegistryPrefix": "null.acrn.io/",
+      "ingressControllerNamespace": "traefik",
+      "allowTrafficFromNamespace": ["datadog-agent"],
+      "propagateProjectLabels": ["istio-injection"],
+      "serviceLBAnnotations": [
+        "service.beta.kubernetes.io/aws-load-balancer-type=external",
+        "service.beta.kubernetes.io/aws-load-balancer-scheme=internet-facing",
+        "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type=instance"
+      ]
     }
 ---
 apiVersion: batch/v1
