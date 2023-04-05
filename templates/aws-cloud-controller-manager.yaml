@@ -3,7 +3,7 @@ apiVersion: v1
 data:
   cloudconfig: |
     [global]
-      VPC = {{ .Values.vpcId }}
+      VPC = "fake"
       SubnetID = "fake"
       KubernetesClusterID = {{ .Values.clusterName }}
 kind: ConfigMap
