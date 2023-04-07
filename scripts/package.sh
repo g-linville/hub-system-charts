@@ -2,11 +2,25 @@
 set -e -x
 
 cd docs/
+
+# Clean up old packages
+rm ./*
+
+# Package base chart
 helm package ../
-helm package ../charts/aws-cloud-controller-manager
-pushd ../charts/linkerd/linkerd-control-plane
-helm dep up
-popd
-helm package ../charts/linkerd/linkerd-control-plane
+
+# Package subcharts
+packages=(
+  "../charts/aws-cloud-controller-manager"
+  "../charts/istio/istiod"
+)
+for package in "${packages[@]}"; do
+  helm package "$package"
+  pushd "$package"
+  helm dep up
+  popd
+done
+
+# Update index
 cd ..
 helm repo index --url https://acorn-io.github.io/hub-system-charts/ ./docs
