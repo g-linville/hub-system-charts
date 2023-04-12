@@ -46,7 +46,7 @@ spec:
               "use_openmetrics": "true"
             }
           ]
-      autoscaleMin: 2
+      autoscaleEnabled: false
       replicaCount: 2
       tolerations:
       - effect: NoSchedule
