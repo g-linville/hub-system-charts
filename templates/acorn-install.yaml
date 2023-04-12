@@ -48,7 +48,8 @@ data:
         "service.beta.kubernetes.io/aws-load-balancer-type=external",
         "service.beta.kubernetes.io/aws-load-balancer-scheme=internet-facing",
         "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type=instance"
-      ]
+      ],
+      "manageVolumeClasses": true
     }
 ---
 apiVersion: batch/v1
