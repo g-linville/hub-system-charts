@@ -52,8 +52,30 @@ kind: ClusterComputeClassInstance
 memory: {}
 metadata:
   name: default
-supportedRegions:
-- local
+---
+apiVersion: internal.admin.acorn.io/v1
+default: true
+description: Project compute class for Hub resources
+kind: ProjectComputeClassInstance
+metadata:
+  name: hub-acorn
+  namespace: acorn
+---
+apiVersion: internal.admin.acorn.io/v1
+description: >-
+  Hub-generated volume class representing ephemeral volumes not backed by a
+  storage class
+kind: ClusterVolumeClassInstance
+metadata:
+  name: ephemeral
+---
+apiVersion: internal.admin.acorn.io/v1
+default: true
+description: Hub-generated volume class representing the storage class ebs-retain
+kind: ClusterVolumeClassInstance
+metadata:
+  name: ebs-retain
+storageClassName: ebs-retain
 ---
 apiVersion: api.acorn.io/v1
 kind: App
