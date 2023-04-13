@@ -34,7 +34,8 @@ spec:
     resources:
       cpu: "16"
       memory: 64Gi
-  ttlSecondsAfterEmpty: 30
+  consolidation:
+    enabled: true
   weight: 1
 ---
 apiVersion: karpenter.k8s.aws/v1alpha1
