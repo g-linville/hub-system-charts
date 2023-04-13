@@ -65,6 +65,16 @@ metadata:
   name: hub-acorn
   namespace: acorn
 supportedRegions: ["local"]
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Exists"
+tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
 ---
 apiVersion: internal.admin.acorn.io/v1
 description: >-
