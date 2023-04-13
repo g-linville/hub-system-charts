@@ -68,7 +68,7 @@ spec:
         spec:
           containers:
             - name: acorn-init
-              image: "ghcr.io/acorn-io/acorn:main"
+              image: "ghcr.io/acorn-io/acorn:{{ .Values.acornTag }}"
               imagePullPolicy: Always
               command: ["acorn", "init", "--skip-checks"]
           restartPolicy: Never

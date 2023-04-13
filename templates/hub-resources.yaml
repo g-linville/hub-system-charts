@@ -14,7 +14,7 @@ spec:
     region: {{ .Values.region }}
     accountName: {{ .Values.clusterAgentAccountName | quote }}
     hubUrl: {{ .Values.hubUrl }}
-  image: ghcr.io/acorn-io/hub:main
+  image: "ghcr.io/acorn-io/hub:{{ .Values.acornTag }}"
   permissions:
     - clusterRules:
         - apiGroups:

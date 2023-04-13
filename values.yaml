@@ -19,6 +19,7 @@ clusterAgentAccountUrl: ""
 clusterAgentToken: ""
 clusterAgentAccountName: ""
 hubUrl: ""
+acornTag: "main"
 
 # CFN output values.
 # prometheusRemoteWriteEndpoint should have '/api/v1/remote_write' appended.
