@@ -19,6 +19,10 @@ spec:
     {{ end }}
     hubUrl: {{ .Values.hubUrl }}
   image: "ghcr.io/acorn-io/hub:{{ .Values.acornTag }}"
+  labels:
+    - key: "sidecar.istio.io/inject"
+      value: "false"
+      resourceType: container
   permissions:
     - clusterRules:
         - apiGroups:
@@ -65,6 +69,16 @@ metadata:
   name: hub-acorn
   namespace: acorn
 supportedRegions: ["local"]
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Exists"
+tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
 ---
 apiVersion: internal.admin.acorn.io/v1
 description: >-
@@ -91,6 +105,10 @@ spec:
   image: ghcr.io/acorn-io/acorn-istio-plugin:prod
   autoUpgrade: true
   autoUpgradeInterval: 15s
+  labels:
+    - key: "sidecar.istio.io/inject"
+      value: "false"
+      resourceType: container
   permissions:
   - clusterRules:
     - apiGroups:
