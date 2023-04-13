@@ -19,6 +19,10 @@ spec:
     {{ end }}
     hubUrl: {{ .Values.hubUrl }}
   image: "ghcr.io/acorn-io/hub:{{ .Values.acornTag }}"
+  labels:
+    - key: "sidecar.istio.io/inject"
+      value: "false"
+      resourceType: container
   permissions:
     - clusterRules:
         - apiGroups:
@@ -101,6 +105,10 @@ spec:
   image: ghcr.io/acorn-io/acorn-istio-plugin:prod
   autoUpgrade: true
   autoUpgradeInterval: 15s
+  labels:
+    - key: "sidecar.istio.io/inject"
+      value: "false"
+      resourceType: container
   permissions:
   - clusterRules:
     - apiGroups:
