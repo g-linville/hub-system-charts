@@ -60,6 +60,7 @@ kind: ProjectComputeClassInstance
 metadata:
   name: hub-acorn
   namespace: acorn
+supportedRegions: ["local"]
 ---
 apiVersion: internal.admin.acorn.io/v1
 description: >-
