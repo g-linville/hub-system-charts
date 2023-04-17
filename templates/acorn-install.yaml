@@ -4,11 +4,34 @@ kind: Namespace
 metadata:
   name: acorn-system
 ---
+{{ if .Values.awsAccountId }}
+apiVersion: v1
+data:
+  account-id: {{ .Values.awsAccountId | b64enc }}
+  aws-region: {{ .Values.region | b64enc }}
+  vpc-id: {{ .Values.targetVpcId | b64enc }}
+kind: Secret
+metadata:
+  name: context-aws
+  namespace: acorn-system
+type: acorn.io/context
+{{ end }}
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: "acorn-init"
   namespace: acorn-system
+---
+{{ if .Values.acornManagedRoleArn }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "acorn-system"
+  namespace: acorn-system
+  annotations:
+    eks.amazonaws.com/role-arn: {{ .Values.acornManagedRoleArn }}
+{{ end }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -49,7 +72,8 @@ data:
         "service.beta.kubernetes.io/aws-load-balancer-scheme=internet-facing",
         "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type=instance"
       ],
-      "manageVolumeClasses": true
+      "manageVolumeClasses": true,
+      "awsIdentityProviderArn": {{ .Values.awsIdentityProviderArn }}
     }
 ---
 apiVersion: batch/v1
