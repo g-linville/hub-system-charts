@@ -7,7 +7,7 @@ metadata:
 {{ if .Values.awsAccountId }}
 apiVersion: v1
 data:
-  account-id: {{ .Values.awsAccountId | b64enc }}
+  account-id: {{ .Values.awsAccountId | toString | b64enc }}
   aws-region: {{ .Values.region | b64enc }}
   vpc-id: {{ .Values.targetVpcId | b64enc }}
 kind: Secret
