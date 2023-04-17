@@ -73,7 +73,7 @@ data:
         "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type=instance"
       ],
       "manageVolumeClasses": true,
-      "awsIdentityProviderArn": {{ .Values.awsIdentityProviderArn }}
+      "awsIdentityProviderArn": {{ .Values.awsIdentityProviderArn | quote }}
     }
 ---
 apiVersion: batch/v1

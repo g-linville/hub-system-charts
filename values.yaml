@@ -14,12 +14,11 @@ ccmRoleArn: ""
 ebsCsiRoleArn: ""
 lbControllerRoleArn: ""
 karpenterRoleArn: ""
-acornManagedRoleArn: ""
-awsIdentityProviderArn: "oidc"
 
 # service acorn
 awsAccountId: ""
-
+acornManagedRoleArn: ""
+awsIdentityProviderArn: "oidc"
 
 clusterAgentAccountUrl: ""
 clusterAgentToken: ""
