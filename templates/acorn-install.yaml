@@ -7,7 +7,7 @@ metadata:
 {{ if .Values.awsAccountId }}
 apiVersion: v1
 data:
-  account-id: {{ .Values.awsAccountId | toString | b64enc }}
+  account-id: {{ printf "%v" .Values.awsAccountId | b64enc }}
   aws-region: {{ .Values.region | b64enc }}
   vpc-id: {{ .Values.targetVpcId | b64enc }}
 kind: Secret
@@ -22,16 +22,6 @@ kind: ServiceAccount
 metadata:
   name: "acorn-init"
   namespace: acorn-system
----
-{{ if .Values.acornManagedRoleArn }}
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: "acorn-system"
-  namespace: acorn-system
-  annotations:
-    eks.amazonaws.com/role-arn: {{ .Values.acornManagedRoleArn }}
-{{ end }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -94,7 +84,7 @@ spec:
             - name: acorn-init
               image: "ghcr.io/acorn-io/acorn:{{ .Values.acornTag }}"
               imagePullPolicy: Always
-              command: ["acorn", "init", "--skip-checks"]
+              command: ["acorn", "init", "--skip-checks"{{ if eq .Values.acornTag "main"}}, "--controller-service-account-annotation", "eks.amazonaws.com/role-arn={{ .Values.acornManagedRoleArn }}"{{ end }}]
           restartPolicy: Never
           serviceAccountName: acorn-init
           tolerations:
