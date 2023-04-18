@@ -84,7 +84,7 @@ spec:
             - name: acorn-init
               image: "ghcr.io/acorn-io/acorn:{{ .Values.acornTag }}"
               imagePullPolicy: Always
-              command: ["acorn", "init", "--skip-checks"{{ if eq .Values.acornTag "main"}}, "--controller-service-account-annotation", "eks.amazonaws.com/role-arn={{ .Values.acornManagedRoleArn }}"{{ end }}]
+              command: ["acorn", "init", "--skip-checks", "--controller-service-account-annotation", "eks.amazonaws.com/role-arn={{ .Values.acornManagedRoleArn }}"]
           restartPolicy: Never
           serviceAccountName: acorn-init
           tolerations:
