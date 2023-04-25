@@ -1,36 +1,43 @@
+# Subnet ids for worker nodes to be created in
 subnetIds: ""
 
+# The cluster name to identify the cluster
 clusterName: ""
 
-roleArn: ""
-
+# VPC ID for the worker nodes to be created in
 targetVpcId: ""
 
+# The region to create the cluster in
 region: ""
 
+# Cluster endpoint used by karpernter
 clusterEndpoint: ""
 
+# IAM roles used by cloud-controller-manager, ebs-csi-driver, load-balancer-controller, karpenter
 ccmRoleArn: ""
 ebsCsiRoleArn: ""
 lbControllerRoleArn: ""
 karpenterRoleArn: ""
 
-# service acorn
+# AWS account id used by service acorn
 awsAccountId: ""
+
+# AWS IAM role arn used by service acorn
 acornManagedRoleArn: ""
+
+# AWS OIDC provider arn used by service acorn
 awsIdentityProviderArn: "oidc"
 
+# Cluster agent account url, token and name used by cluster agent
 clusterAgentAccountUrl: ""
 clusterAgentToken: ""
 clusterAgentAccountName: ""
 hubUrl: ""
+
+# Acorn tag to install in the cluster
 acornTag: "main"
 
-# CFN output values.
-# prometheusRemoteWriteEndpoint should have '/api/v1/remote_write' appended.
-prometheusRemoteWriteEndpoint: ""
-prometheusIngestArn: ""
-
+# Options to turn on/off components
 awsCcm: true
 awsEbs: true
 awsIdentity: true
@@ -42,13 +49,18 @@ acorn: true
 awsKarpenter: true
 hubResources: true
 awsKarpenterProvisioner: true
-
 istio: true
 
+# Prometheus configuration
+# CFN output values.
+# prometheusRemoteWriteEndpoint should have '/api/v1/remote_write' appended.
+prometheusRemoteWriteEndpoint: ""
+prometheusIngestArn: ""
 prometheus: true
 # after prom chart install
 prometheusInstance: false
 
+# Datadog agent configuration
 datadogAgent:
   enabled: true
   apiKey: ""
