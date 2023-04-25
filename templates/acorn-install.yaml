@@ -55,7 +55,6 @@ data:
       "publishBuilders": true,
       "internalRegistryPrefix": "null.acrn.io/",
       "ingressControllerNamespace": "traefik",
-      "allowTrafficFromNamespace": ["datadog-agent"],
       "propagateProjectLabels": ["istio-injection"],
       "serviceLBAnnotations": [
         "service.beta.kubernetes.io/aws-load-balancer-type=external",

@@ -36,16 +36,6 @@ spec:
   chart: https://acorn-io.github.io/hub-system-charts/istiod-1.17.1.tgz
   valuesContent: |
     pilot:
-      podAnnotations:
-        ad.datadoghq.com/discovery.check_names: '["istio"]'
-        ad.datadoghq.com/discovery.init_configs: '[{}]'
-        ad.datadoghq.com/discovery.instances: |
-          [
-            {
-              "istiod_endpoint": "http://%%host%%:15014/metrics",
-              "use_openmetrics": "true"
-            }
-          ]
       autoscaleEnabled: false
       replicaCount: 2
       tolerations:

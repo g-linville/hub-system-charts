@@ -59,8 +59,3 @@ prometheusIngestArn: ""
 prometheus: true
 # after prom chart install
 prometheusInstance: false
-
-# Datadog agent configuration
-datadogAgent:
-  enabled: true
-  apiKey: ""
