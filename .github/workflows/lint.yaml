@@ -12,3 +12,4 @@ jobs:
           chmod 700 get_helm.sh
           ./get_helm.sh
       - run: helm lint
+      - run: ./scripts/package.sh
