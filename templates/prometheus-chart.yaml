@@ -15,7 +15,7 @@ metadata:
   namespace: kube-system
 spec:
   bootstrap: true
-  chart: https://github.com/prometheus-community/helm-charts/releases/download/kube-prometheus-stack-44.3.1/kube-prometheus-stack-44.3.1.tgz
+  chart: https://github.com/prometheus-community/helm-charts/releases/download/kube-prometheus-stack-44.3.1/kube-prometheus-stack-45.23.0.tgz
   targetNamespace: prometheus-operator
   valuesContent: |
     prometheusOperator:

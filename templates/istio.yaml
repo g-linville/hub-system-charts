@@ -55,4 +55,20 @@ spec:
             topologyKey: node-role.kubernetes.io/control-plane
     istio_cni:
       enabled: true
+---
+apiVersion: v1
+kind: Secret
+stringData:
+  config: |
+    - job_name: 'envoy-stats'
+      metrics_path: /stats/prometheus
+      kubernetes_sd_configs:
+      - role: pod
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_container_port_name]
+        action: keep
+        regex: '.*-envoy-prom'
+metadata:
+  name: istio-proxy-scrape-config
+  namespace: prometheus-operator
 {{ end }}

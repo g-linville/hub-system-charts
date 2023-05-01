@@ -24,6 +24,7 @@ spec:
     remoteTimeout: "5s"
     sigv4:
       region: {{ .Values.region }}
+      roleArn: {{ .Values.prometheusRemoteWriteRoleArn }}
     queueConfig:
       maxSamplesPerSend: 1000
       maxShards: 200
@@ -41,6 +42,9 @@ spec:
   podMonitorSelector:
     matchLabels:
       release: prometheus-operator
+  additionalScrapeConfigs:
+    key: config
+    name: istio-proxy-scrape-config
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -48,7 +52,7 @@ metadata:
   name: prometheus
   namespace: prometheus-operator
   annotations:
-    eks.amazonaws.com/role-arn: {{ .Values.prometheusIngestArn }}
+    eks.amazonaws.com/role-arn: {{ .Values.prometheusRoleArn }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

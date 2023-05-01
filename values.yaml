@@ -54,8 +54,10 @@ istio: true
 # Prometheus configuration
 # CFN output values.
 # prometheusRemoteWriteEndpoint should have '/api/v1/remote_write' appended.
+# prometheusRoleArn is the role used to assume prometheusRemoteWriteRoleArn, which is the role that can remote write metrics to AMP
 prometheusRemoteWriteEndpoint: ""
-prometheusIngestArn: ""
+prometheusRoleArn: ""
+prometheusRemoteWriteRoleArn: ""
 prometheus: true
 # after prom chart install
 prometheusInstance: false
