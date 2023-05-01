@@ -1,4 +1,4 @@
-{{ if .Values.prometheus && .Values.prometheusRemoteWriteRoleArn }}
+{{ if and .Values.prometheus .Values.prometheusRemoteWriteRoleArn }}
 apiVersion: v1
 kind: Namespace
 metadata:
